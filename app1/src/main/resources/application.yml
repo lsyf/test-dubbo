@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: app1
+dubbo:
+  registry:
+    address:
+  protocol:
+    name: dubbo
+    port: 12345
+  scan:
+    base-packages: io.github.lsyf.app1.dubbo
+
