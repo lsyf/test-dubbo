@@ -1,0 +1,74 @@
+druid: &druid_config
+  initialSize: 5
+  minIdle: 5
+  maxActive: 200
+  # 配置获取连接等待超时的时间
+  maxWait: 60000
+  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+  timeBetweenEvictionRunsMillis: 60000
+  # 配置一个连接在池中最小生存的时间，单位是毫秒
+  minEvictableIdleTimeMillis: 300000
+  # 用来检测连接是否有效的sql，要求是一个查询语句
+  validationQuery: SELECT 1 FROM DUAL
+  # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+  testWhileIdle: true
+  # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+  testOnBorrow: false
+  # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+  testOnReturn: false
+  # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+  poolPreparedStatements: false
+  # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+  max-pool-prepared-statement-per-connection-size: 50
+  #配置监控统计拦截的filters，stat:监控统计、log4j：日志记录、wall：防御sql注入
+  filters: stat,wall
+  # 合并多个DruidDataSource的监控数据
+  useGlobalDataSourceStat: true
+  # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  filter:
+    stat:
+      enabled: true
+      db-type: mysql
+      log-slow-sql: false
+      slow-sql-millis: 3000
+    wall:
+      enabled: true
+      throw-exception: true
+      log-violation: true
+      config:
+        delete-allow: true
+        drop-table-allow: false
+        truncate-allow: false
+        alter-table-allow: false
+        metadata-allow: true
+      db-type: mysql
+  stat-view-servlet:
+    enabled: true
+    allow:
+    deny:
+    login-password: 123
+    login-username: admin
+    reset-enable: true
+    url-pattern: /druid/*
+  aop-patterns: com.lsyf.fund.dao.aop
+  web-stat-filter:
+    enabled: true
+    exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,/v3/api-docs,/swagger*"
+    principal-cookie-name:
+    principal-session-name:
+    profile-enable:
+    session-stat-enable: false
+    session-stat-max-count: 100000
+    url-pattern: /*
+
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://10.100.218.68:3306/test
+      username: dctest
+      password: dctest@cico
+      type: com.alibaba.druid.pool.DruidDataSource
+      <<: *druid_config

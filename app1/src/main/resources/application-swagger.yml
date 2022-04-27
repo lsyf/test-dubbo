@@ -1,0 +1,18 @@
+springfox:
+  documentation:
+    enabled: true
+swagger:
+  base-package: io.github.lsyf.app1.controller
+  base-path: /**
+  exclude-path: /error, /ops/**
+  description: x
+  title: x
+  version: 1.0.0
+  contact:
+    email:
+    name:
+    url:
+  host:
+  license:
+  licenseUrl:
+  termsOfServiceUrl:

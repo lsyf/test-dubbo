@@ -1,10 +1,10 @@
 server:
-  port: 8081
+  port: 8082
 
 
 spring:
   application:
-    name: app1
+    name: app2
   profiles:
     active: db,log,mybatis,swagger
 
@@ -16,9 +16,17 @@ nacos:
   password: nacos
 
 dubbo:
+  application:
+    name: ${spring.application.name}
+  protocol:
+    name: dubbo
+    port: -1
   registry:
-    address: zookeeper://10.100.218.28:2181
 #    address: nacos://${nacos.host}:${nacos.port}/?username=${nacos.username}&password=${nacos.password}
+    address: zookeeper://10.100.218.28:2181
 
   scan:
     base-packages: io.github.lsyf.app2.dubbo
+
+
+

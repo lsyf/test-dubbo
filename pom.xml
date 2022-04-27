@@ -15,8 +15,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>common</module>
         <module>app1</module>
+        <module>app2</module>
     </modules>
 
     <properties>
